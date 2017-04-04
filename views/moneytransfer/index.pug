@@ -1,0 +1,33 @@
+extends ../layout
+
+block styles
+  link(rel='styleSheet' href='/stylesheets/moneytransfer/index.css')
+block scripts
+  //
+    script(src="x-bootstrap-wizard-v1.1/assets/js/jquery.bootstrap.wizard.js")
+    script(src="x-bootstrap-wizard-v1.1/assets/js/jquery.validate.min.js")
+    script(src="x-bootstrap-wizard-v1.1/assets/js/wizard.js")
+block content
+
+  section.video-inline
+    .container
+      .row
+        .col-md-6.col-sm-12
+          h1.space-bottom-medium GRAPHIC INTERNATIONAL MONEY TRANSFER
+          p.lead.space-bottom-medium
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+          |
+          .mobileAppsButtons
+            a.android-badge(href='#', target='_blank')
+            a.ios-badge(href='#', target='_blank')
+        .col-md-6.col-sm-12
+          |
+          .inline-video-wrapper
+            video(controls='')
+              source(src='/Pivot 2.0.3/video/video.webm', type='video/webm')
+              source(src='/Pivot 2.0.3/video/video.mp4', type='video/mp4')
+              source(src='/Pivot 2.0.3/video/video.ogv', type='video/ogg')
+  .text-center(style='margin: 1.5em;')
+    a.btn.btn-primary.btn-filled(href='/moneytransfer/moneytransfer')
+      strong Transfer now!
+  .clearfix

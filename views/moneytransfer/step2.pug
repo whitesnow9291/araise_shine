@@ -1,0 +1,56 @@
+form#payment-form(action="/myaccount/addfund/checkouts", method="post")
+  section
+    .bt-drop-in-wrapper
+      #bt-dropin
+
+    label(for="amount")
+      span.input-label Amount
+      .input-wrapper.amount-wrapper
+        input#amount(name="amount" type="tel" min="1" placeholder="Amount" value="10")
+
+  button.btn.btn-primary.button(type="submit")
+    span Submit
+script(src="https://js.braintreegateway.com/js/braintree-2.27.0.min.js")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+script.
+  (function () {
+    var token = "#{clientToken}";
+
+    braintree.setup(token, "dropin", {
+      container: "bt-dropin",
+      onPaymentMethodReceived: function(res){
+        var payment_method_nonce=res.nonce;
+        var amount = $('#amount').val();
+        $.ajax({
+          type: "POST",
+          url: '/moneytransfer/post_moneytransfer',
+          data: {'payment_method_nonce':payment_method_nonce,'amount':amount},
+          success: function(json){
+            if (json.result==1){
+              $.post("/moneytransfer/post_hyper_pay", {
+                hyperwallet_moneytransfer_response: hyperwallet_moneytransfer_response,
+                hyperusertoken:hyperusertoken,
+                amount:amount
+                }, function(data) {
+                // Set up the Twilio Client Device with the token
+                if (data.result=='success'){
+                  step_widzard.bootstrapWizard('next');
+                }else{
+                  for (var i =0;i<data.msg.length;i++)
+                  toastr.error(data.msg[i].message);
+                }
+                
+              });
+              
+            }else{
+              toastr.error(json.msg);
+            }
+          },
+          error:function(error){
+            toastr.error(error);
+          },
+          dataType: 'json'
+        });
+      }
+    });
+  })()

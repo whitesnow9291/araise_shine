@@ -1,0 +1,20 @@
+$ariseshine_maincolor: #b5651d;
+.top-bar {
+  position: static;
+}
+.overlay-bar .menu li a:hover{
+  color:#ef6e19;
+}
+.overlay-bar .login-button {
+    border-color: $ariseshine_maincolor;
+    color: $ariseshine_maincolor;
+}
+section:nth-of-type(odd){
+  background: transparent !important;
+}
+.accordion li.active .title{
+  background-color:$ariseshine_maincolor;
+}
+.accordion .title:hover{
+  background-color:$ariseshine_maincolor;
+}

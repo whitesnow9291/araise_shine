@@ -1,0 +1,44 @@
+form
+  .form-group
+    label.control-label(for='programName') Program Name
+    div
+      input#programName.form-control(type='text', readonly='')
+  .form-group
+    label.control-label(for='programToken') Program Token
+    div
+      input#programToken.form-control(type='text', readonly='')
+  .form-group
+    label.control-label(for='destinationToken') Destination Token
+    div
+      input#destinationToken.form-control(type='text', readonly='')
+  .form-group
+    label.control-label(for='currency') Currency
+    div
+      input#currency.form-control(type='text', readonly='')
+  .form-group
+    label.control-label(for='clientPaymentId') Client Payment ID
+    div
+      input#clientPaymentId.form-control(type='text', name='clientPaymentId')
+  .form-group
+    label.control-label(for='amount')
+      span
+        | Amount
+        a.text-muted(aria-describedby='password-tooltip')
+          i.fa.fa-question-circle
+    div
+      input#amount.form-control(type='text', name='amount')
+  .form-group
+    label.control-label(for='purpose') Purpose
+    div
+      select#purpose.form-control(name='purpose', type='select')
+        option(value='') Please Select
+        option(value='GP0001') Bonus
+        option(value='GP0002') Commission
+        option(value='GP0003') Expense
+        option(value='GP0004') Non-Taxable Payment
+        option(value='GP0005') Income
+        option(value='GP0006') Pension
+        option(value='GP0007') Charity Donation
+  .form-actions
+    .text-right
+      button.btn.btn-primary(type='submit') Submit

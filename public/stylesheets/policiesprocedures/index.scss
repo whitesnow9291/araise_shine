@@ -1,0 +1,17 @@
+$ariseshine_maincolor: #b5651d;
+.top-bar {
+  position: static;
+ }
+  @media only screen and (max-width: 767px) and (min-width: 320px){
+
+  }
+  .overlay-bar .menu li a:hover{
+    color:#ef6e19;
+  }
+  .overlay-bar .login-button {
+      border-color: $ariseshine_maincolor;
+      color: $ariseshine_maincolor;
+  }
+div.container.ploicies_content{
+  padding: 0 50px;
+}

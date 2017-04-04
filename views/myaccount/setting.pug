@@ -1,0 +1,39 @@
+extends ../layout
+block styles
+  link(href='/stylesheets/auth/signup.css', rel='stylesheet', type='text/css', media='all')
+  link(href='/bower_components/toastr/toastr.css', rel='stylesheet', type='text/css', media='all')
+block content
+  .main-container
+    section.no-pad.login-page.fullscreen-element
+      .background-image-holder
+        img.background-image(alt='Poster Image For Mobiles', src='/Pivot 2.0.3/img/hero6.jpg')
+      .container.align-vertical
+        .row
+          .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-3.text-center
+            h1.text-white Update account
+            .photo-form-wrapper.clearfix
+              form(method='post',action='/myaccount/setting',enctype='application/x-www-form-urlencoded')
+                h1.bg-primary(for='amount') User amount: #{usertoverify.amount?usertoverify.amount+' $':''}
+                |
+                input(name='fullname', type='text', placeholder='Enter Name' value=usertoverify.fullname?usertoverify.fullname:'')
+                |
+                input(name='email', type='email', placeholder='Enter Email' value=usertoverify.email?usertoverify.email:'')
+                |
+                input(name='old_password', type='password', placeholder='Old Password')
+                |
+                input(name='password', type='password', placeholder='Enter Password' value=password?password:'')
+                |
+                input(name='password2', type='password', placeholder='Confirm Password' value=password2?password2:'')
+                |
+                input.btn.btn-primary.btn-filled(type='submit', value='Update')
+block scripts
+  script(src='/bower_components/toastr/toastr.js')
+  script(type='text/javascript').
+    var errors = '!{errors}';
+    var success = '!{success}';
+    if (errors){
+      errors = JSON.parse(errors);
+      for (var i=0;i<errors.length;i++) {
+        toastr.warning(errors[i].msg);
+      }
+    }

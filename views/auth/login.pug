@@ -1,0 +1,36 @@
+extends ../layout
+block styles
+  link(href='/bower_components/toastr/toastr.css', rel='stylesheet', type='text/css', media='all')
+  link(href='/stylesheets/auth/login.css', rel='stylesheet', type='text/css', media='all')
+block content
+  .main-container
+    section.no-pad.login-page.fullscreen-element
+      .background-image-holder
+        img.background-image(alt='Poster Image For Mobiles', src='/Pivot 2.0.3/img/hero6.jpg')
+      .container.align-vertical
+        .row
+          .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-3.text-center
+            h1.text-white Login to continue
+            .photo-form-wrapper.clearfix
+              form(method='post',action='/auth/login',enctype='application/x-www-form-urlencoded')
+                input.form-email(type='text',name='email', placeholder='Email Address',value=email?email:'')
+                |
+                input.form-password(type='password',name='password' placeholder='Password')
+                |
+                input.btn.btn-primary.btn-filled(type='submit', value='Login')
+            |
+            a.text-white(href='/auth/signup') Create an account &#x279E;
+            br
+            |
+            //
+              a.text-white(href='#') I&apos;ve forgotten my password
+block scripts
+  script(src='/bower_components/toastr/toastr.js')
+  script(type='text/javascript').
+    var errors = '!{errors}';
+
+    if (errors){
+      errors = JSON.parse(errors);
+      for (var i=0;i<errors.length;i++)
+        toastr.warning(errors[i].msg);
+    }

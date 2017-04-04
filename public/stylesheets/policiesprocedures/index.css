@@ -1,0 +1,12 @@
+.top-bar {
+  position: static; }
+
+.overlay-bar .menu li a:hover {
+  color: #ef6e19; }
+
+.overlay-bar .login-button {
+  border-color: #b5651d;
+  color: #b5651d; }
+
+div.container.ploicies_content {
+  padding: 0 50px; }

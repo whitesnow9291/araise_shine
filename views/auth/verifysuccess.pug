@@ -1,0 +1,15 @@
+extends ../layout
+block styles
+block content
+  .main-container
+    section.no-pad.login-page.fullscreen-element
+      .background-image-holder
+        img.background-image(alt='Poster Image For Mobiles', src='/Pivot 2.0.3/img/hero6.jpg')
+      .container.align-vertical
+        .row
+          .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-3.text-center
+            h1.text-white Account verification complete!
+            .photo-form-wrapper.clearfix
+              form(method='post',action='/auth/signup',enctype='multipart/form-data')
+                |
+                a.btn.btn-primary.btn-filled(href='/') Go home

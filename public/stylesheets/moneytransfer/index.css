@@ -1,0 +1,25 @@
+.top-bar {
+  position: static; }
+
+section:nth-of-type(odd) {
+  background: none; }
+
+form#payment-form section {
+  padding-top: 0px; }
+
+.overlay-bar .menu li a:hover {
+  color: #ef6e19; }
+
+.overlay-bar .login-button {
+  border-color: #b5651d;
+  color: #b5651d; }
+
+.step_course ul li {
+  float: none !important;
+  width: 100% !important; }
+
+.step_course {
+  padding: 30px; }
+
+.tab-content {
+  background: transparent !important; }

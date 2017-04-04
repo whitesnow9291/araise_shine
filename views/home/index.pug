@@ -1,0 +1,143 @@
+extends ../layout
+block styles
+  link(rel='stylesheet',href='/stylesheets/home/index.css')
+block content
+  .main-container
+    header.fullscreen-element.no-pad.centered-text
+      .background-image-holder.parallax-background.overlay
+        img.background-image(alt='Background Image', src='Pivot 2.0.3/img/hero13.jpg')
+      .container.align-vertical
+        .row
+          .col-md-12.text-center
+            //
+              span.text-white.alt-font Say Hello Arise Shine
+              h1.text-white
+                | The biggest, baddest new template on the block
+                br
+                | has arrived, build yours now.
+              p.lead.text-white Tons of elements, Consistent style, Variant builder included.
+              |
+            a.btn.btn-primary.btn-filled(href='/moneytransfer') Money Transfer
+            |
+            a.btn.btn-primary.btn-filled(href='/internationalcall') International Calls
+    section.text-banner
+      .container.text-center
+        .row
+          .col-sm-12
+            ul.icons-large
+              li
+                i.icon.icon-layers.icon-large
+              li
+                i.icon.icon-browser.icon-large
+              li
+                i.icon.icon-adjustments.icon-large
+            h1.center-block.vis
+              | Look at this sweet little Icon Divider, what a winner!
+              br
+        .row
+          .col-md-12
+            a.btn.btn-primary.vis(href='#') See Features
+            |
+            a.btn.btn-primary.btn-filled(href='#') Learn More
+    section.video-inline
+      .container
+        .row
+          .col-md-6.col-sm-12
+            h1.space-bottom-medium GRAPHIC INTERNATIONAL MONEY TRANSFER
+            p.lead.space-bottom-medium
+              | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+            |
+            a.btn.btn-primary(href='#') See Features
+            |
+            a.btn.btn-primary.btn-filled Learn More
+          .col-md-6.col-sm-12
+            .inline-video-wrapper
+              video(controls='')
+                source(src='Pivot 2.0.3/video/video.webm', type='video/webm')
+                source(src='Pivot 2.0.3/video/video.mp4', type='video/mp4')
+                source(src='Pivot 2.0.3/video/video.ogv', type='video/ogg')
+    section.side-image.clearfix
+      .image-container.col-md-5.col-sm-4.pull-left
+        .background-image-holder
+          img.background-image(alt='Background Image', src='Pivot 2.0.3/img/hero10.jpg')
+      .container
+        .row
+          .col-md-6.col-md-offset-6.col-sm-7.col-sm-offset-5.content.clearfix
+            h1
+              |  GRAPHIC
+              br
+              | CHEAP INTERNATIONAL PHONE CALLS
+            p.lead
+              | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+            .row
+              .col-md-6.no-pad-left
+                .feature.feature-icon-left
+                  .icon-holder
+                    i.icon.icon-genius
+                  .feature-text
+                    h6 Clear Documentation
+                    p
+                      | Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+              .col-md-6.no-pad-left
+                .feature.feature-icon-left
+                  .icon-holder
+                    i.icon.icon-flag
+                  .feature-text
+                    h6 Support Forum Access
+                    p
+                      | Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+            .row
+              .col-md-6.no-pad-left
+                .feature.feature-icon-left
+                  .icon-holder
+                    i.icon.icon-mobile
+                  .feature-text
+                    h6 Optimized For Mobile
+                    p
+                      | Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+              .col-md-6.no-pad-left
+                .feature.feature-icon-left
+                  .icon-holder
+                    i.icon.icon-clipboard
+                  .feature-text
+                    h6 Fully Featured &amp; Flexible
+                    p
+                      | Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+    section.bg-primary
+                  .container
+                    .row
+                      .col-sm-8.col-sm-offset-2
+                        .testimonials-slider.text-center
+                          ul.slides
+                            li
+                              p.text-white.lead
+                                | Pivot is hands down the most flexible and enjoyable HTML template I&apos;ve ever used. I was a startup framework die-hard but now my eyes have been opened to the sheer power of Variant page builder, I won&apos;t be going back!
+                              |
+                              span.author.text-white Louise Duke - Mother Goose
+                            li
+                              p.text-white.lead
+                                | I was getting fed up with the hassle of setting up bloated WordPress themes. Luckily I&apos;ve now found Pivot with Variant. Building pages in real-time without a CMS gives me all the power and flexibility I could want.
+                              |
+                              span.author.text-white Elizabeth Atkinson - Shapewear Australia
+                            li
+                              p.text-white.lead
+                                | The plethora of content blocks available in Pivot has made it my go-to template of choice. I&apos;ve already used it for a number of clients - all of which have been thrilled with the outcome. Well done Medium Rare!
+                              |
+                              span.author.text-white Toby Whittaker - Design Dojo
+    aside.mobileApps
+      .videoWrap
+        video(autoplay='', loop='')
+          source(src='images/footervideo.mp4', type='video/mp4')
+      .whiteFrame
+        .container-fluid
+          .row
+            .col-lg-4.col-lg-offset-7.col-md-5.col-md-offset-7.col-sm-8.col-sm-offset-2.col-xs-12.col-xs-offset-0
+              img.mobileIcon(src='/images/phone.png')
+              h2 Check out our Apps
+              p
+                | Download them now and connect even faster with your favorite | host - wherever you are!
+              .mobileAppsButtons
+                a.android-badge(href='#', target='_blank')
+                a.ios-badge(href='#', target='_blank')
+                .best-of-2016-container
+                  img.best-of-2016(width='280', src='https://ucarecdn.com/b48baaab-bb9c-487f-82ab-17359e301287/-/preview/344x48/')

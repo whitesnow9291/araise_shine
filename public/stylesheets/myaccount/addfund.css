@@ -1,0 +1,19 @@
+.top-bar {
+  position: static; }
+
+.overlay-bar .menu li a:hover {
+  color: #ef6e19; }
+
+.overlay-bar .login-button {
+  border-color: #b5651d;
+  color: #b5651d; }
+
+section:nth-of-type(odd) {
+  background: transparent !important; }
+
+.photo-form-wrapper input {
+  background: rgba(0, 128, 128, 0.24); }
+
+h1.charge_header_title {
+  color: #b5651d;
+  font-weight: bold; }

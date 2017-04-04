@@ -1,0 +1,20 @@
+label{
+  color: antiquewhite;
+}
+.btn.btn-link{
+  color: white;
+}
+.btn.btn-link:hover{
+  background: transparent;
+}
+.intl-tel-input{
+  display: block !important;
+}
+.intl-tel-input .flag-dropdown:hover .selected-flag{
+  background: transparent !important;
+}
+ul li.country{
+  text-align: left;
+}
+section.no-pad.login-page.fullscreen-element .container.align-vertical {
+ padding-top: 30px !important; }

@@ -1,0 +1,35 @@
+extends ../layout
+block styles
+  link(href='/stylesheets/auth/phoneverify.css', rel='stylesheet', type='text/css', media='all')
+  link(rel='stylesheet', href='/intl-phone/css/intlTelInput.css')
+  link(href='/bower_components/toastr/toastr.css', rel='stylesheet', type='text/css', media='all')
+block scripts
+  script(src='/intl-phone/js/intlTelInput.min.js')
+  script(src='/javascripts/phoneverify/phoneverify.js')
+  script(src='//www.authy.com/form.authy.min.js')
+  script(src='/bower_components/toastr/toastr.js')
+block content
+  .main-container
+    section.no-pad.login-page.fullscreen-element
+      .background-image-holder
+        img.background-image(alt='Poster Image For Mobiles', src='/Pivot 2.0.3/img/hero6.jpg')
+      .container.align-vertical
+        .row
+          .col-md-4.col-md-offset-4.col-sm-6.col-sm-offset-3.text-center
+            h1.text-white Enter your phone number, and we'll send you a security code
+            .photo-form-wrapper.clearfix
+              form(method='post',action='/auth/phoneverify',enctype='multipart/form-data')
+                label Phone Number
+                |
+                input#phoneNumber(name='phone_number', type='text', placeholder='Phone Number')
+                |
+                button.btn.btn-link.btn_sendcode(type='button') Send Code
+                |
+                br
+                |
+                label.token_label Enter the access code
+                |
+                input.token(name='access_code', type='text', placeholder='Access code')
+                |
+                input.btn.btn-primary.btn-filled(type='submit', value='Submit')
+                input#userid(type='hidden')

@@ -1,0 +1,18 @@
+.top-bar {
+  position: static; }
+
+.overlay-bar .menu li a:hover {
+  color: #ef6e19; }
+
+.overlay-bar .login-button {
+  border-color: #b5651d;
+  color: #b5651d; }
+
+section:nth-of-type(odd) {
+  background: transparent !important; }
+
+.accordion li.active .title {
+  background-color: #b5651d; }
+
+.accordion .title:hover {
+  background-color: #b5651d; }

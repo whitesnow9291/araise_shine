@@ -1,0 +1,32 @@
+extends ../../layout
+block styles
+  link(rel='styleSheet' href='/stylesheets/myaccount/addfund.css')
+block content
+  .wrapper: .checkout.container: .content.photo-form-wrapper
+    header.text-center
+      h1.charge_header_title Hi, Charge your account
+      p Charge your account using PayPal or a card
+
+    form#payment-form(action="/myaccount/addfund/checkouts", method="post")
+      section
+        .bt-drop-in-wrapper
+          #bt-dropin
+
+        label(for="amount")
+          span.input-label Amount
+          .input-wrapper.amount-wrapper
+            input#amount(name="amount" type="tel" min="1" placeholder="Amount" value="10")
+
+      button.btn.btn-primary.btn-filled(type="submit")
+        span Confirm
+
+  script(src="https://js.braintreegateway.com/js/braintree-2.27.0.min.js")
+  script.
+    (function () {
+
+
+      var token = "#{clientToken}";
+      braintree.setup(token, "dropin", {
+        container: "bt-dropin"
+      });
+    })()

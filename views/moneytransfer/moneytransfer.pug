@@ -1,0 +1,44 @@
+extends ../layout
+block styles
+  link(href="/stylesheets/moneytransfer/gsdk-base_custom.css" rel="stylesheet")
+  link(rel='styleSheet' href='/stylesheets/moneytransfer/index.css')
+  link(href='/bower_components/toastr/toastr.css', rel='stylesheet', type='text/css', media='all')
+block scripts
+  script(src="/x-bootstrap-wizard-v1.1/assets/js/jquery.bootstrap.wizard.js")
+  script(src="/x-bootstrap-wizard-v1.1/assets/js/jquery.validate.min.js")
+  script(src="/x-bootstrap-wizard-v1.1/assets/js/wizard.js")
+  script(src='/bower_components/toastr/toastr.js')
+block content
+  .wizard-container.col-sm-10.col-sm-offset-1
+    #wizardProfile.card.wizard-card.ct-wizard-orange
+      .wizard-header
+        h3
+          |Step 1 : Choose
+          |where to send
+          |money
+      .col-sm-3.step_course
+        ul
+          li.text-left
+            a(href='#step1', data-toggle='tab') Step 1 : Create a Transfer Method
+          li.text-left
+            a(href='#step2', data-toggle='tab') Step 2 : Fund money
+          li.text-left
+            a(href='#step_complete', data-toggle='tab') Completed
+      .tab-content.col-sm-8
+        #step1.tab-pane
+          include step1.pug
+        #step2.tab-pane
+          include step2.pug
+        #step_complete.tab-pane
+          include step_complete.pug
+      .clearfix
+      .wizard-footer.clearfix
+        .pull-right
+          //
+            input.btn.btn-next.btn-primary(type='button', name='next', value='Next')
+            |
+          input.btn.btn-finish.btn-primary(type='hidden', name='finish', value='Finish')
+        //
+          .pull-right
+          input.btn.btn-previous.btn-primary(type='button', name='previous', value='Previous')
+  .clearfix

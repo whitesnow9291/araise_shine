@@ -1,0 +1,99 @@
+extends ../../layout
+block styles
+  link(rel='styleSheet' href='/stylesheets/myaccount/addfund.css')
+block content
+  h1
+  .col-sm-6
+    if result && result.message
+      .text-center.text-success(style='font-size: 11em;')
+        i.glyphicon.glyphicon-ok-circle
+
+      h1.text-center=result.header
+      .row.text-center
+        p= result.message
+    else
+      .row.text-center
+        p Test another transaction or see the Braintree API response.
+
+    .row.text-center
+      a.button.primary.back(href="/myaccount/addfund/")
+        span Test Another Transaction
+
+  .col-sm-6
+    h5 Transaction
+    table.table.table-hover.table-inverse
+      tbody
+        tr
+          th id
+          td= transaction.id
+        tr
+          th type
+          td= transaction.type
+        tr
+          th amount
+          td= transaction.amount
+        tr
+          th status
+          td= transaction.status
+        tr
+          th createdAt
+          td= transaction.createdAt
+        tr
+          th updatedAt
+          td= transaction.updatedAt
+    h5 Payment
+    table.table.table-hover.table-inverse
+      tbody
+        tr
+          th token
+          td= transaction.creditCard.token
+        tr
+          th bin
+          td= transaction.creditCard.bin
+        tr
+          th last4
+          td= transaction.creditCard.last4
+        tr
+          th cardType
+          td= transaction.creditCard.cardType
+        tr
+          th expirationDate
+          td= transaction.creditCard.expirationDate
+        tr
+          th cardholderName
+          td= transaction.creditCard.cardholderName
+        tr
+          th customerLocation
+          td= transaction.creditCard.customerLocation
+      if transaction.customerDetails
+        .row
+          h5 Customer
+
+          table.table.table-hover.table-inverse
+            tbody
+              tr
+                th id
+                td= transaction.customer.id
+              tr
+                th firstName
+                td= transaction.customer.firstName
+              tr
+                th lastName
+                td= transaction.customer.lastName
+              tr
+                th email
+                td= transaction.customer.email
+              tr
+                th company
+                td= transaction.customer.company
+              tr
+                th website
+                td= transaction.customer.website
+              tr
+                th phone
+                td= transaction.customer.phone
+              tr
+                th fax
+                td= transaction.customer.fax
+  .clearfix
+  h1
