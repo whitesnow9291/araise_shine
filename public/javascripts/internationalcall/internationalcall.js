@@ -81,7 +81,7 @@ $(function() {
       $.post("/internationalcall/getCallTrackbyParentCallid", {'parentcallsid': callsid}, function(data) {
         // Set up the Twilio Client Device with the token
         console.log(data);
-        if (data){
+        if (data.amount){
             var duration = data.call.duration;
             var price = data.call.price;
             var amount = data.amount;
