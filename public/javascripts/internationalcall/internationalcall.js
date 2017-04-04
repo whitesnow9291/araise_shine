@@ -91,7 +91,7 @@ $(function() {
             duration = 0;
             toastr.info('Call Duration: '+duration);
         }else{
-          toastr.error("Twilio Connection error!");
+          toastr.error("Call ended!");
         }
 
       });
