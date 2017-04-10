@@ -1,0 +1,147 @@
+extends moneytransfer
+block step_content
+  h1.text-center.
+    You're Almost Done-Please Review
+  form.form-inline(action = '/moneytransfer/step5',method='post',enctype='application/x-www-form-urlencoded')
+    .col-sm-12
+      table.table.table-hover
+        tbody
+          tr
+            td
+              p Transfer Details: #{trans_data.trans_amount} to #{trans_data.moneytransfer_method.transferMethodCountry}
+              p 
+               //106500.00 NGN(1 USD = 355.0000 NGN)
+            td
+            td
+              p ORDER TOTAL: #{trans_data.trans_amount}
+          tr
+            td
+              //
+                p Delivery method
+                h5 #{trans_data.moneytransfer_method.type}
+            td
+              p Payment method
+              h5 Credit/Debit Card
+            td
+              p Fee
+              h5 $00
+          tr
+            td
+              p Recipient
+              h5 #{trans_data.recipient.firstName + " "+ trans_data.recipient.lastName}
+            td
+              p Recipient NickName:#{trans_data.recipient.firstName + " "+trans_data.recipient.lastName.charAt(0)}
+            
+              p Street Address:#{trans_data.recipient.addressLine1}
+              
+              p State/Province/Region: #{trans_data.recipient.stateProvince}
+              
+              p City/Area:#{trans_data.recipient.city}
+              
+              p Country:#{trans_data.recipient.country}
+              
+              p Email:#{trans_data.recipient.email}
+            td
+          tr
+            td 
+              each val, index in trans_data.moneytransfer_method
+                p
+                  | #{index}
+                  strong :| #{val}
+            td 
+            td 
+          tr
+            td 
+              p Payment Method
+              h5 Credit/Debit Card
+            td 
+              p Card Number:#{trans_data.payment_data.creditCards[0].maskedNumber}
+              
+              p Card Type:#{trans_data.payment_data.creditCards[0].cardType}
+              
+              p Expiration:#{trans_data.payment_data.creditCards[0].expirationDate}
+            td
+    .col-sm-6
+      h5 Card Security Code(CVV)
+      input.form-control(name='cvv', type='number')
+      p.
+        Please enter the 3- or 4- digit security code printed on your card
+      //
+        h4 An SMS notification will be sent to you upon order submission.
+        input.form-control(type='checkbox')
+        label.control-label(for='stateProvince') Send SMS alerts to 232323 when my order status changes
+    .col-sm-6
+      h2 Amount $ #{trans_data.trans_amount}
+      p Fee: $0.00
+      p Order Total: $ #{trans_data.trans_amount}
+      button.form-control(type = 'submit') SUBMIT ORDDER
+block moneytransfer_scripts
+  script(type='text/javascript').
+    var errors = '!{errors}';
+    var error_hyper = '!{error_hyper}';
+    if (errors){
+      errors = JSON.parse(errors);
+      toastr.warning(errors.name);
+    }
+    if (error_hyper){
+      error_hyper = JSON.parse(error_hyper);
+      for (i=0;i<error_hyper.length;i++){
+        toastr.warning(error_hyper[i].message);
+      }
+    }
+
+  //
+    #widget
+  //
+    script(src='https://api.sandbox.hyperwallet.com/rest/widgets/transfer-methods/'+hyperusertoken+'/en.min.js')
+    script(type='text/javascript').
+      
+        /*var hyperun = '#{hyperun}';
+        var hyperpw = '#{hyperpw}';
+        var hyperwallet_moneytransfer_response = null;
+        var hyperusertoken = '#{hyperusertoken}';
+        var widget = HWWidgets.transferMethods.configure({
+        "template": "bootstrap3",
+        "el": document.getElementById("widget"),
+        "skipProfileFields": true,
+          "transferMethodConfiguration": {
+             "profileType": "INDIVIDUAL"
+          },
+        "onComplete": function (data) {
+          $.ajax({
+            type: "POST",
+            url: 'https://api.sandbox.hyperwallet.com/rest/v3/users/'+hyperusertoken+'/transfer-methods',
+
+            contentType:'application/json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "Basic " + btoa(hyperun + ":" + hyperpw));
+                xhr.setRequestHeader ("Json-Cache-Token", data.token);
+                xhr.setRequestHeader ("Content-Type", "application/json");
+                xhr.setRequestHeader ("Accept", "application/json");
+            },
+            processData: false,
+            data: '{"foo":"bar"}',
+            dataType:'json',
+            success: function(json){
+              console.log(json);
+              hyperwallet_moneytransfer_response = json;
+              step_widzard.bootstrapWizard('next');
+            },
+            error:function(error){
+              console.log(error);
+              var msgs = JSON.parse(error.responseText).errors;
+              for (var i =0;i<msgs.length;i++)
+              toastr.error(msgs[i].message);
+            }
+          });
+          console.log("Received token: " + data.token);
+          hyperwallet_moneytransfer_response = data;
+          this.setData({});
+          /*step_widzard.bootstrapWizard('next');*/
+        },
+        "onError": function (errors, state) {
+          /*step_widzard.bootstrapWizard('next');*/
+          console.log(errors);
+        }
+        });
+        widget.create(); //display widget*/

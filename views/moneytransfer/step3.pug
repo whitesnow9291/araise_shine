@@ -1,44 +1,59 @@
-form
-  .form-group
-    label.control-label(for='programName') Program Name
-    div
-      input#programName.form-control(type='text', readonly='')
-  .form-group
-    label.control-label(for='programToken') Program Token
-    div
-      input#programToken.form-control(type='text', readonly='')
-  .form-group
-    label.control-label(for='destinationToken') Destination Token
-    div
-      input#destinationToken.form-control(type='text', readonly='')
-  .form-group
-    label.control-label(for='currency') Currency
-    div
-      input#currency.form-control(type='text', readonly='')
-  .form-group
-    label.control-label(for='clientPaymentId') Client Payment ID
-    div
-      input#clientPaymentId.form-control(type='text', name='clientPaymentId')
-  .form-group
-    label.control-label(for='amount')
-      span
-        | Amount
-        a.text-muted(aria-describedby='password-tooltip')
-          i.fa.fa-question-circle
-    div
-      input#amount.form-control(type='text', name='amount')
-  .form-group
-    label.control-label(for='purpose') Purpose
-    div
-      select#purpose.form-control(name='purpose', type='select')
-        option(value='') Please Select
-        option(value='GP0001') Bonus
-        option(value='GP0002') Commission
-        option(value='GP0003') Expense
-        option(value='GP0004') Non-Taxable Payment
-        option(value='GP0005') Income
-        option(value='GP0006') Pension
-        option(value='GP0007') Charity Donation
-  .form-actions
-    .text-right
-      button.btn.btn-primary(type='submit') Submit
+extends moneytransfer
+block moneytransfer_styles
+  style.
+block step_content
+  h1.text-center.
+    Let's continue with your order
+  #widget
+  script(src='https://api.sandbox.hyperwallet.com/rest/widgets/transfer-methods/'+hyperusertoken+'/en.min.js')
+  script(type='text/javascript').
+    var hyperun = '#{hyperun}';
+    var hyperpw = '#{hyperpw}';
+    var hyperusertoken = '#{hyperusertoken}';
+    var widget = HWWidgets.transferMethods.configure({
+      "template": "bootstrap3",
+      "el": document.getElementById("widget"),
+      "skipProfileFields": true,
+        "transferMethodConfiguration": {
+           "profileType": "INDIVIDUAL"
+        },
+      "onComplete": function (transfer_token) {
+        var moneytransfer_method = this.getData();
+        $.ajax({
+          type: "POST",
+          url: 'https://api.sandbox.hyperwallet.com/rest/v3/users/'+hyperusertoken+'/transfer-methods',
+
+          contentType:'application/json',
+          beforeSend: function (xhr) {
+              xhr.setRequestHeader ("Authorization", "Basic " + btoa(hyperun + ":" + hyperpw));
+              xhr.setRequestHeader ("Json-Cache-Token", transfer_token.token);
+              xhr.setRequestHeader ("Content-Type", "application/json");
+              xhr.setRequestHeader ("Accept", "application/json");
+          },
+          processData: false,
+          data: '{"foo":"bar"}',
+          dataType:'json',
+          success: function(json){
+            console.log(json);
+            $.post("/moneytransfer/step3", {
+              moneytransfer_method: moneytransfer_method,
+              moneytransfer_token: json
+              }, function(json) {
+              // Set up the Twilio Client Device with the token
+              location.href = "/moneytransfer/step4";
+            });
+          },
+          error:function(error){
+            console.log(error);
+            var msgs = JSON.parse(error.responseText).errors;
+            for (var i =0;i<msgs.length;i++)
+            toastr.error(msgs[i].message);
+          }
+        });
+      },
+      "onError": function (errors, state) {
+        /*step_widzard.bootstrapWizard('next');*/
+        toastr.error('Insert correct infomation! please try again.');
+      }
+    });
+    widget.create(); //display widget*/

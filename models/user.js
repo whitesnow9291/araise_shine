@@ -54,8 +54,13 @@ var UserSchema = mongoose.Schema({
     },
     authyId: {
         type: String
-    }
-
+    },
+    customerId:{
+      type: String
+    },
+    braintreePaymentToken:{
+      type: String
+    },
 });
 
 var User = module.exports = mongoose.model('User', UserSchema);

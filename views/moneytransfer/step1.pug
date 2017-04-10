@@ -1,54 +1,32 @@
-
-#widget
-script(src='https://api.sandbox.hyperwallet.com/rest/widgets/transfer-methods/'+hyperusertoken+'/en.min.js')
-script(type='text/javascript').
-    //create widget
-    var hyperun = '#{hyperun}';
-    var hyperpw = '#{hyperpw}';
-    var hyperwallet_moneytransfer_response = null;
-    var hyperusertoken = '#{hyperusertoken}';
-    var widget = HWWidgets.transferMethods.configure({
-    "template": "bootstrap3",
-    "el": document.getElementById("widget"),
-    "skipProfileFields": true,
-      "transferMethodConfiguration": {
-         "profileType": "INDIVIDUAL"
-      },
-    "onComplete": function (data) {
-      $.ajax({
-        type: "POST",
-        url: 'https://api.sandbox.hyperwallet.com/rest/v3/users/'+hyperusertoken+'/transfer-methods',
-
-        contentType:'application/json',
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader ("Authorization", "Basic " + btoa(hyperun + ":" + hyperpw));
-            xhr.setRequestHeader ("Json-Cache-Token", data.token);
-            xhr.setRequestHeader ("Content-Type", "application/json");
-            xhr.setRequestHeader ("Accept", "application/json");
-        },
-        processData: false,
-        data: '{"foo":"bar"}',
-        dataType:'json',
-        success: function(json){
-          console.log(json);
-          hyperwallet_moneytransfer_response = json;
-          step_widzard.bootstrapWizard('next');
-        },
-        error:function(error){
-          console.log(error);
-          var msgs = JSON.parse(error.responseText).errors;
-          for (var i =0;i<msgs.length;i++)
-          toastr.error(msgs[i].message);
-        }
-      });
-      console.log("Received token: " + data.token);
-      hyperwallet_moneytransfer_response = data;
-      this.setData({});
-      /*step_widzard.bootstrapWizard('next');*/
-    },
-    "onError": function (errors, state) {
-      /*step_widzard.bootstrapWizard('next');*/
-      console.log(errors);
+extends moneytransfer
+block moneytransfer_styles
+  style.
+    input#exampleInputAmount.form-control{
+      z-index:0;
     }
-    });
-    widget.create(); //display widget
+block step_content
+  form.form-inline(action = '/moneytransfer/step1',method='post',enctype='application/x-www-form-urlencoded')
+    h1.text-center.
+      Enter the amount to send
+    .form-group.col-sm-6.col-sm-offset-3
+      label.sr-only(for='exampleInputAmount') Amount (in dollars)
+      .input-group
+        .input-group-addon $
+        |  
+        input#exampleInputAmount.form-control(name = 'trans_amount',type='number', placeholder='Amount',max-length="6")
+    h1.clearfix 
+    h3.
+      To continue with this trasaction today,you can use a Create or Debit Card
+    h1
+    .form-group.col-sm-12.text-center
+      button.btn.btn-primary(type='submit') CONTINUE WITH CREADIT/DEVIT CARD
+    |
+block moneytransfer_scripts
+  script(type='text/javascript').
+      var errors = '!{errors}';
+      if (errors){
+        errors = JSON.parse(errors);
+        for (var i=0;i<errors.length;i++){
+          toastr.warning(errors[i].msg);
+        }
+      }

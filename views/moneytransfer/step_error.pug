@@ -1,0 +1,11 @@
+extends moneytransfer
+block moneytransfer_styles
+  style.
+    input#exampleInputAmount.form-control{
+      z-index:0;
+    }
+block step_content
+  .message
+    h1.
+      Error occured!
+    a.btn.btn-primary.btn-filled(href='/') Return to home
