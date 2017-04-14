@@ -153,15 +153,22 @@ router.post('/step2', function(req, res) {
       return res.render('moneytransfer/step2',{'result':'false',errors:JSON.stringify(error)});
     }else{
       trans_data.moneytransfer_usertoken = body.token;
-      return res.render('moneytransfer/step3', {result:true, hyperusertoken:body.token,hyperun:hyperwalletconf.username,hyperpw:hyperwalletconf.password});
+      return res.redirect('/moneytransfer/step4');
     }
   });
 });
 router.post('/step3',function(req,res){
   trans_data.moneytransfer_method=req.body.moneytransfer_method;
   trans_data.moneytransfer_token=req.body.moneytransfer_token;
-  console.log(trans_data.moneytransfer_method+"______________________________");
+  console.log('trans_data============================');
+  console.log(trans_data.moneytransfer_method);
+  console.log(trans_data.moneytransfer_token);
   return res.json({result:true});
+});
+router.get('/step5',function(req,res){
+  return res.render('moneytransfer/step5', {
+      'trans_data':trans_data
+  });
 });
 router.get('/step4', function(req, res) {
   console.log('----------step4----------');
@@ -239,7 +246,7 @@ console.log('create customer id_______________________');
                       if (err) {
                         return res.render('moneytransfer/step_error', {errors:err});
                       }
-                      goStep5();
+                      goStep2();
                   });
                 }
               });
@@ -266,13 +273,13 @@ console.log('update result_______________________');
                     if (err) {
                         return res.render('moneytransfer/step_error', {errors:err});
                     }
-                    goStep5();
+                    goStep2();
                 });
               }
           });
       }
   });
-  function goStep5(){
+  function goStep2(){
     User.findById(req.session.user.id, function(err, user) {
         if (err || !user) {console.log(err);
             return res.render('moneytransfer/step_error', {'errors':err});
@@ -287,9 +294,7 @@ console.log('update result_______________________');
                 console.log('customer info----------------------------------------------------');
                 trans_data.payment_data = customer;
                 console.log(trans_data);
-                return res.render('moneytransfer/step5', {
-                    'trans_data':trans_data
-                });
+                return res.render('moneytransfer/step3', {result:true, hyperusertoken:trans_data.moneytransfer_usertoken,hyperun:hyperwalletconf.username,hyperpw:hyperwalletconf.password});
             });
         }
     });
@@ -319,9 +324,7 @@ router.post('/step4_update', function(req, res) {
                 console.log('customer info----------------------------------------------------');
                 trans_data.payment_data = customer;
                 console.log(trans_data);
-                return res.render('moneytransfer/step5', {
-                    'trans_data':trans_data
-                });
+                return res.render('moneytransfer/step3', {result:true, hyperusertoken:trans_data.moneytransfer_usertoken,hyperun:hyperwalletconf.username,hyperpw:hyperwalletconf.password});
             });
         }
     });
@@ -357,14 +360,14 @@ router.post('/step5', function(req, res) {
           var Hyperwallet = require('hyperwallet-sdk');
           var client = new Hyperwallet({ username: hyperwalletconf.username, password: hyperwalletconf.password,
           programToken: hyperwalletconf.programToken });
-          console.log(hyperwallet_moneytransfer_response+"-------------------------------------------hyperwallet client");
+          console.log("-------------------------------------------hyperwallet_moneytransfer_response");
           var notes = trans_data.payment_note.addressLine1 + trans_data.payment_note.addressLine2 + trans_data.payment_note.city + trans_data.payment_note.stateProvince +
           trans_data.payment_note.postalCode + trans_data.payment_note.country;
           client.createPayment({
             "clientPaymentId": Math.random().toString(36).substring(7),
             "amount": amount,
-            "currency": hyperwallet_moneytransfer_response.transferMethodCurrency,
-            "purpose": "OTHER",
+            "currency": "USD",//hyperwallet_moneytransfer_response.transferMethodCurrency,
+            "purpose": "GP0003",
             "notes" : notes,
             "destinationToken": hyperusertoken
           }, function(error, body) {
