@@ -23,8 +23,9 @@ block step_content
               p Payment method
               h5 Credit/Debit Card
             td
-              p Fee
-              h5 $00
+              //
+                p Fee
+                h5 $00
           tr
             td
               p Recipient
@@ -72,7 +73,8 @@ block step_content
         label.control-label(for='stateProvince') Send SMS alerts to 232323 when my order status changes
     .col-sm-6
       h2 Amount $ #{trans_data.trans_amount}
-      p Fee: $0.00
+      //
+        p Fee: $0.00
       p Order Total: $ #{trans_data.trans_amount}
       button.form-control(type = 'submit') SUBMIT ORDDER
 block moneytransfer_scripts
