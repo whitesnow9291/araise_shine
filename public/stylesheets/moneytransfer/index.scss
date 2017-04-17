@@ -55,6 +55,7 @@ form#payment-form section{
   transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 .step_content{
+  min-height: 600px;
   padding-bottom:50px;
 }
 @media only screen and (max-width: 767px) and (min-width: 320px){

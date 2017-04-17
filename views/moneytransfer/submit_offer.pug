@@ -64,7 +64,7 @@ block step_content
             td
     .col-sm-6
       h5 Card Security Code(CVV)
-      input.form-control(name='cvv', type='number')
+      input.form-control(name='cvv', type='number',required)
       p.
         Please enter the 3- or 4- digit security code printed on your card
       //
@@ -83,7 +83,7 @@ block moneytransfer_scripts
     var error_hyper = '!{error_hyper}';
     if (errors){
       errors = JSON.parse(errors);
-      toastr.warning(errors.name);
+      toastr.warning(errors.message);
     }
     if (error_hyper){
       error_hyper = JSON.parse(error_hyper);

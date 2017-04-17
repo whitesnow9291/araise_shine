@@ -388,6 +388,11 @@ router.post('/submit_offer', function(req, res) {
               return res.render('moneytransfer/step_complete');
             }
           });
+      }else{
+        return res.render('moneytransfer/submit_offer', {
+            'trans_data':trans_data,
+            'errors':JSON.stringify(result2)
+        });
       }
   });
 });
