@@ -2,9 +2,10 @@ extends moneytransfer
 block step_content
   h1.text-center.
     Lets's continue with your order
-  form#payment-form(action='/moneytransfer/step4', method='post')
+  form#payment-form(action='/moneytransfer/card', method='post')
     h3.text-center
       Enter Payment Information
+    h1
     .col-sm-6
       .bt-drop-in-wrapper
         #bt-dropin

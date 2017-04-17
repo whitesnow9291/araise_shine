@@ -24,11 +24,6 @@ form#payment-form section {
 .tab-content {
   background: transparent !important; }
 
-.footer-container {
-  position: fixed;
-  bottom: 0;
-  width: 100%; }
-
 @media only screen and (max-width: 767px) and (min-width: 320px) {
   .footer-container {
     position: relative;
@@ -52,8 +47,12 @@ form#payment-form section {
   transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; }
 
 .step_content {
-  padding-bottom: 200px; }
+  padding-bottom: 50px; }
 
 @media only screen and (max-width: 767px) and (min-width: 320px) {
   .step_content {
-    padding-bottom: 0px; } }
+    min-height: 0px;
+    padding-bottom: 20px; }
+  .footer-container {
+    position: relative !important;
+    width: 100%; } }

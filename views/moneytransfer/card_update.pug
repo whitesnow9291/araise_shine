@@ -2,14 +2,15 @@ extends moneytransfer
 block step_content
   h1.text-center.
     Lets's continue with your order
-  form#payment-form(action='/moneytransfer/step4_update', method='post')
+  form#payment-form(action='/moneytransfer/card_attached', method='post')
     h3.text-center
       Enter Payment Information
+    h1
     .col-sm-6
       img(src=customer.creditCards[0].imageUrl)
       p expirationDate: #{customer.creditCards[0].expirationDate}
       p last4: #{customer.creditCards[0].last4}
-      a.btn.btn-primary.form-control(href='/moneytransfer/step4_create') Change Payment Method
+      a.btn.btn-primary.form-control(href='/moneytransfer/card_create') Change Payment Method
     .col-sm-6
       .form-group
         label.control-label(for='addressLine1') Address Line 1

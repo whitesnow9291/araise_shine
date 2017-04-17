@@ -1,6 +1,10 @@
 extends moneytransfer
 block moneytransfer_styles
   style.
+    .step_content {
+      min-height: 600px;
+      padding-bottom: 50px;
+    }
 block step_content
   h1.text-center.
     Let's continue with your order
@@ -35,12 +39,12 @@ block step_content
           dataType:'json',
           success: function(json){
             console.log(json);
-            $.post("/moneytransfer/step3", {
+            $.post("/moneytransfer/transfermethod", {
               moneytransfer_method: moneytransfer_method,
               moneytransfer_token: json
               }, function(json) {
               // Set up the Twilio Client Device with the token
-              location.href = "/moneytransfer/step5";
+              location.href = "/moneytransfer/submit_offer";
             });
           },
           error:function(error){

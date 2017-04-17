@@ -52,11 +52,11 @@ function createResultObject(transaction) {
 router.get('/', function(req, res, next) {
     res.render('moneytransfer/index', { title: 'Money Transfer' });
 });
-router.get('/step1', function(req, res, next) {
+router.get('/inputamount', function(req, res, next) {
   req.session.trans = {};
 
   //console.log(req.session.trans.trans_amount);
-  res.render('moneytransfer/step1');
+  res.render('moneytransfer/inputamount');
       // gateway.clientToken.generate({}, function (err, response) {
       //   var Hyperwallet = require('hyperwallet-sdk');
       //   var client = new Hyperwallet({ username: hyperwalletconf.username, password: hyperwalletconf.password,
@@ -87,7 +87,7 @@ router.get('/step1', function(req, res, next) {
       //   });
       // });
 });
-router.post('/step1', function(req, res) {
+router.post('/inputamount', function(req, res) {
   var trans_amount = req.body.trans_amount;
 
   req.checkBody('trans_amount', 'Amount is required').notEmpty();
@@ -97,7 +97,7 @@ router.post('/step1', function(req, res) {
 
   if (errors) {
       console.log(errors);
-      res.render('moneytransfer/step1', {
+      res.render('moneytransfer/inputamount', {
           errors: JSON.stringify(errors),
           trans_amount: trans_amount
       });
@@ -105,10 +105,10 @@ router.post('/step1', function(req, res) {
     console.log("------------------------trans_amount------------------------");
     console.log(req.body.trans_amount);
     trans_data.trans_amount = trans_amount;
-    res.render('moneytransfer/step2');
+    return res.redirect('/moneytransfer/card');
   }
 });
-router.post('/step2', function(req, res) {
+router.post('/inputreceiptientinfo', function(req, res) {
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var email = req.body.email;
@@ -150,14 +150,30 @@ router.post('/step2', function(req, res) {
     console.log(error);
 
     if (error){
-      return res.render('moneytransfer/step2',{'result':'false',errors:JSON.stringify(error)});
+      return res.render('moneytransfer/inputreceiptientinfo',{'result':'false',errors:JSON.stringify(error)});
     }else{
       trans_data.moneytransfer_usertoken = body.token;
-      return res.redirect('/moneytransfer/step4');
+      User.findById(req.session.user.id, function(err, user) {
+          if (err || !user) {console.log(err);
+              return res.render('moneytransfer/step_error', {'errors':err});
+          }
+          if (!user.customerId) {
+              return res.render('moneytransfer/step_error', {'errors':"customer didn't registered"});
+          } else {
+              gateway.customer.find(user.customerId, function(err, customer) {
+                  if (err) {
+                      return res.render('moneytransfer/step_error', {errors:err});
+                  }
+                  console.log('customer info----------------------------------------------------');
+                  trans_data.payment_data = customer;
+                  return res.render('moneytransfer/transfermethod', {result:true, hyperusertoken:trans_data.moneytransfer_usertoken,hyperun:hyperwalletconf.username,hyperpw:hyperwalletconf.password});
+              });
+          }
+      });
     }
   });
 });
-router.post('/step3',function(req,res){
+router.post('/transfermethod',function(req,res){
   trans_data.moneytransfer_method=req.body.moneytransfer_method;
   trans_data.moneytransfer_token=req.body.moneytransfer_token;
   console.log('trans_data============================');
@@ -165,13 +181,13 @@ router.post('/step3',function(req,res){
   console.log(trans_data.moneytransfer_token);
   return res.json({result:true});
 });
-router.get('/step5',function(req,res){
-  return res.render('moneytransfer/step5', {
+router.get('/submit_offer',function(req,res){
+  return res.render('moneytransfer/submit_offer', {
       'trans_data':trans_data
   });
 });
-router.get('/step4', function(req, res) {
-  console.log('----------step4----------');
+router.get('/card', function(req, res) {
+  console.log('----------card----------');
   User.findById(req.session.user.id, function(err, user) {
       if (err || !user) {console.log(err);
           return res.render('moneytransfer/step_error', {'errors':err});
@@ -182,7 +198,7 @@ router.get('/step4', function(req, res) {
             if (err) {
               return res.render('moneytransfer/step_error', {errors:err});
             }
-            return res.render('moneytransfer/step4_create', {result:true,clientToken: response.clientToken});
+            return res.render('moneytransfer/card_create', {result:true,clientToken: response.clientToken});
           });
       } else {
           gateway.customer.find(user.customerId, function(err, customer) {
@@ -191,7 +207,7 @@ router.get('/step4', function(req, res) {
               }
               console.log('customer info----------------------------------------------------');
 
-              return res.render('moneytransfer/step4_update', {
+              return res.render('moneytransfer/card_update', {
                   "result":"success",
                   "customerId":user.customerId,
                   "customer":customer
@@ -200,16 +216,16 @@ router.get('/step4', function(req, res) {
       }
   });
 });
-router.get('/step4_create', function(req, res) {
+router.get('/card_create', function(req, res) {
   gateway.clientToken.generate({}, function (err, response) {
     if (err) {
       return res.render('moneytransfer/step_error', {errors:err});
     }
-    return res.render('moneytransfer/step4_create', {result:true,clientToken: response.clientToken});
+    return res.render('moneytransfer/card_create', {result:true,clientToken: response.clientToken});
   });
 });
-router.post('/step4', function(req, res) {
-    console.log('----------step4 create post----------');
+router.post('/card', function(req, res) {
+    console.log('----------card create post----------');
   trans_data.payment_note = {
     'addressLine1':req.body.addressLine1,
     'addressLine2':req.body.addressLine2,
@@ -246,7 +262,7 @@ console.log('create customer id_______________________');
                       if (err) {
                         return res.render('moneytransfer/step_error', {errors:err});
                       }
-                      goStep2();
+                      goinputreceiptientinfo();
                   });
                 }
               });
@@ -265,7 +281,7 @@ console.log('customer id update_______________________');
             if (err) {
               return res.render('moneytransfer/step_error', {errors:err});
             }
-console.log('update result_______________________');
+            console.log('update result_______________________');
             if (result1.success == true) {
                 user.customerId = result1.customer.id;
                 user.braintreePaymentToken = result1.customer.paymentMethods[0].token;console.log('db save_______________________');
@@ -273,35 +289,21 @@ console.log('update result_______________________');
                     if (err) {
                         return res.render('moneytransfer/step_error', {errors:err});
                     }
-                    goStep2();
+                    goinputreceiptientinfo();
                 });
               }
           });
       }
   });
-  function goStep2(){
-    User.findById(req.session.user.id, function(err, user) {
-        if (err || !user) {console.log(err);
-            return res.render('moneytransfer/step_error', {'errors':err});
-        }
-        if (!user.customerId) {
-            return res.render('moneytransfer/step_error', {'errors':"customer didn't registered"});
-        } else {
-            gateway.customer.find(user.customerId, function(err, customer) {
-                if (err) {
-                    return res.render('moneytransfer/step_error', {errors:err});
-                }
-                console.log('customer info----------------------------------------------------');
-                trans_data.payment_data = customer;
-                console.log(trans_data);
-                return res.render('moneytransfer/step3', {result:true, hyperusertoken:trans_data.moneytransfer_usertoken,hyperun:hyperwalletconf.username,hyperpw:hyperwalletconf.password});
-            });
-        }
-    });
+  function goinputreceiptientinfo(){
+
+    res.render('moneytransfer/inputreceiptientinfo');
+
   }
 });
-router.post('/step4_update', function(req, res) {
-    console.log('----------step4 post----------');
+router.post('/card_attached', function(req, res) {
+    console.log('----------card attached----------');
+
     trans_data.payment_note = {
       'addressLine1':req.body.addressLine1,
       'addressLine2':req.body.addressLine2,
@@ -324,13 +326,13 @@ router.post('/step4_update', function(req, res) {
                 console.log('customer info----------------------------------------------------');
                 trans_data.payment_data = customer;
                 console.log(trans_data);
-                return res.render('moneytransfer/step3', {result:true, hyperusertoken:trans_data.moneytransfer_usertoken,hyperun:hyperwalletconf.username,hyperpw:hyperwalletconf.password});
+                return res.render('moneytransfer/inputreceiptientinfo');
             });
         }
     });
 });
-router.post('/step5', function(req, res) {
-  console.log('step5'+"----------------------------------");
+router.post('/submit_offer', function(req, res) {
+  console.log('submit_offer'+"----------------------------------");
   trans_data.payment_data.cvv =  req.body.cvv;
   console.log("----------------------------------");
   gateway.transaction.sale({
@@ -345,7 +347,7 @@ router.post('/step5', function(req, res) {
   }, function (err, result2) {
     console.log(err);
       if (err) {
-        return res.render('moneytransfer/step5', {
+        return res.render('moneytransfer/submit_offer', {
             'trans_data':trans_data,
             'errors':JSON.stringify(err)
         });
@@ -376,7 +378,7 @@ router.post('/step5', function(req, res) {
               console.log(error);
               console.log('error _________________________________________');
               return res.render('moneytransfer/step_error');
-              // return res.render('moneytransfer/step5', {
+              // return res.render('moneytransfer/submit_offer', {
               //     'trans_data':trans_data,
               //     'error_hyper':JSON.stringify(error)
               // });
